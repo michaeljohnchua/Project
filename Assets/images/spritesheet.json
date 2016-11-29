@@ -1,0 +1,48 @@
+{
+
+"images": [
+    "spritesheet.png"
+],
+
+"frames": [
+    [1, 1, 194, 103, 0, 0, 0],
+    [197, 1, 44, 42, 0, 0, 0],
+    [197, 45, 35, 27, 0, 0, 0],
+    [234, 45, 9, 33, 0, 0, 0],
+    [197, 74, 9, 33, 0, 0, 0],
+    [1, 106, 151, 118, 0, 0, 0],
+    [154, 109, 91, 91, 0, 0, 0],
+    [154, 202, 90, 77, 0, 0, 0],
+    [1, 226, 136, 111, 0, 0, 0],
+    [139, 281, 99, 75, 0, 0, 0],
+    [1, 339, 99, 75, 0, 0, 0],
+    [1, 416, 98, 50, 0, 0, 0],
+    [102, 358, 90, 77, 0, 0, 0],
+    [194, 358, 56, 54, 0, 0, 0],
+    [194, 414, 56, 54, 0, 0, 0]
+],
+
+"animations": {
+    "enemyBoss": { "frames": [0] },
+    "meteorSmall": { "frames": [1] },
+    "life": { "frames": [2] },
+    "laserGreen": { "frames": [3] },
+    "laserRed": { "frames": [4] },
+    "shield": { "frames": [5] },
+    "enemyUFO": { "frames": [6] },
+    "playerLeft": { "frames": [7] },
+    "meteorBig": { "frames": [8] },
+    "player": { "frames": [9] },
+    "playerDamaged": { "frames": [10] },
+    "enemyShip": { "frames": [11] },
+    "playerRight": { "frames": [12] },
+    "laserGreenShot": { "frames": [13] },
+    "laserRedShot": { "frames": [14] }
+},
+
+"texturepacker": [
+        "SmartUpdateHash: $TexturePacker:SmartUpdate:60d7cfb27286a4be40cd795d6e0f1e8c:ff5d9e16fe281d09cefdc307e93795ff:729adc6043343cfda41c447ce8f464d6$",
+        "Created with TexturePacker (https://www.codeandweb.com/texturepacker) for EaselJS"
+]
+
+}
