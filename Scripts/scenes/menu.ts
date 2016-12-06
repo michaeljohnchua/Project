@@ -20,7 +20,9 @@ module scenes {
 
         public start() : void {
             console.log("Menu Scene Started");
-
+            score =0;
+            life=5;
+            
             this._playBtn = new objects.Button("PlayBtn", config.Screen.CENTER_X - 30, config.Screen.CENTER_Y);
             
             this._playBtn.on("click", this._playBtnClick, this);

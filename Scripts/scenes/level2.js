@@ -284,12 +284,12 @@ var scenes;
                     score += 100 * this._multiplier;
                 }
             }
-            if (this._enemyBoss.life <= 0) {
+            if (this._enemyBoss.life == 0) {
                 this._scrollableObjContainer.removeChild(this._enemyBoss);
                 this._endDelay += createjs.Ticker.interval;
                 this._stageWin = true;
             }
-            if (this._ship.life <= 0) {
+            if (this._ship.life < 0) {
                 this._endDelay += createjs.Ticker.interval;
             }
             //Life Update
@@ -305,7 +305,8 @@ var scenes;
             if (this._endDelay > 2000) {
                 if (this._stageWin) {
                     score += 500 * this._multiplier;
-                    scene = config.Scene.LEVEL2;
+                    scene = config.Scene.GAMEOVER;
+                    gameWin = true;
                 }
                 else {
                     scene = config.Scene.GAMEOVER;

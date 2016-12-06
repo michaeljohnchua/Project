@@ -81,7 +81,7 @@ var objects;
                 }
                 this.hitBool = false;
             }
-            if (this.life <= 0) {
+            if (this.life < 0) {
                 this.gotoAndStop("playerDamaged");
                 this.speed = 0;
             }
