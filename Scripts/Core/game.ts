@@ -13,6 +13,9 @@ var scene: number;
 
 var gameWin : boolean = false;
 
+var score : number =0;
+var life: number = 5;
+
 // Preload Assets required
 var assetData:objects.Asset[] = [
     {id: "Space_BG", src:"../../Assets/images/space_bg.png"},
@@ -95,7 +98,8 @@ function init() {
 
     gameAtlas = new createjs.SpriteSheet(atlasData);
 
-    scene = config.Scene.MENU;
+    //scene = config.Scene.MENU;
+    scene = config.Scene.LEVEL2;
     changeScene();
 }
 
@@ -119,6 +123,11 @@ function changeScene() : void {
             stage.removeAllChildren();
             currentScene = new scenes.Shooter();
             console.log("Starting SHOOTER scene");
+            break;
+        case config.Scene.LEVEL2 :
+            stage.removeAllChildren();
+            currentScene = new scenes.Level2();
+            console.log("Starting Level 2");
             break;
         case config.Scene.HELP :
             stage.removeAllChildren();

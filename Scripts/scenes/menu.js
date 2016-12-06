@@ -26,11 +26,13 @@ var scenes;
             this._menuBG.scaleY = 1.1;
             this._helpBtn = new objects.Button("HelpBtn", 100, 480);
             this._helpBtn.on("click", this._helpBtnClick, this);
+            this._helpBtn.scaleX = .75;
+            this._helpBtn.scaleY = .75;
             this._title = new createjs.Bitmap(assets.getResult("Title"));
             this._title.x = 215;
             this._title.y = 50;
             this.addChildAt(this._menuBG, 0);
-            this.addChild(this._title);
+            //this.addChild(this._title);
             this.addChild(this._playBtn);
             this.addChild(this._helpBtn);
             // Add menu scene to global stage container

@@ -18,7 +18,8 @@ module objects {
         public speed : number =5;
         public timer : number = 800;
         public hitBool: boolean = false;
-        public life: number =5;
+        public life: number;
+        public shield: createjs.Sprite;
 
         constructor(imageString:string) {
             super(imageString, "");
@@ -33,17 +34,28 @@ module objects {
             this.y = -50;                        
             window.onkeydown = this._onKeyDown;
             window.onkeyup = this._onKeyUp;
+
+
+            this.shield = new createjs.Sprite(gameAtlas,"shield");
+            this.shield.x = this.x - 27;
+            this.shield.y = this.y - 23;
         }
 
         get getShots() : objects.Laser[] {
             return this._shots;
         }
 
-       
+       get getInvincible(): boolean{
+           return this._invincible
+       }
 
         public update() : void {
             super.update();
+            this.shield.x = this.x - 27;
+            this.shield.y = this.y - 23;
+
             this.timer += createjs.Ticker.interval;
+
             if(controls.UP) {
                 this.moveUp();
             }
@@ -72,12 +84,8 @@ module objects {
             }
 
             if (this.hitBool){
-                if (this._invincible){
-                    if (this._invincibleTimer >1500){
-                        this._invincible = false;
-                    }
-                }
-                else {
+                
+                if(this._invincible== false) {
                     this.life -=1;
                     console.log(this.life);
                     this._invincible = true;
@@ -91,6 +99,9 @@ module objects {
                 this.speed =0;
             }
             this._invincibleTimer += createjs.Ticker.interval;
+            if (this._invincible && this._invincibleTimer >3000){
+                        this._invincible = false;                    
+            }
         }
 
         private _onKeyDown(event : KeyboardEvent) {
@@ -151,7 +162,7 @@ module objects {
         }
 
         public moveLeft() {
-            console.log(this.position.x);
+            //console.log(this.position.x);
             if (this.position.x>-10){
             this.position.x -= this.speed;
             this.gotoAndStop("playerLeft")

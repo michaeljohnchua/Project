@@ -7,19 +7,19 @@ var objects;
 (function (objects) {
     var EnemyBoss = (function (_super) {
         __extends(EnemyBoss, _super);
-        function EnemyBoss(imageString, position) {
+        function EnemyBoss(imageString, position, life) {
             _super.call(this, imageString, "");
             this.timer = 800;
             this.aimBool = false;
             this.rangeBool = false;
             this.hitBool = false;
-            this.life = 5;
             this._shots = [];
             this.name = imageString;
             this.position = position;
             this.x = this.position.x;
             this.y = this.position.y;
             this._speed = 2;
+            this.life = life;
         }
         Object.defineProperty(EnemyBoss.prototype, "getShots", {
             get: function () {

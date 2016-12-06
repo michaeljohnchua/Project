@@ -5,18 +5,18 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var scenes;
 (function (scenes) {
-    var Shooter = (function (_super) {
-        __extends(Shooter, _super);
-        function Shooter() {
+    var Level2 = (function (_super) {
+        __extends(Level2, _super);
+        function Level2() {
             _super.call(this);
             this._scrollTrigger = 300;
             this._endDelay = 0;
             this.score = 0;
-            this._multiplier = 1;
+            this._multiplier = 2;
             this._stageWin = false;
             this.start();
         }
-        Shooter.prototype.start = function () {
+        Level2.prototype.start = function () {
             this._stageWin = false;
             this._bg1 = new createjs.Bitmap(assets.getResult("Space_BG"));
             this._bg1.regY = 2560;
@@ -25,18 +25,22 @@ var scenes;
             this._bg2.regY = 2560;
             this._bg2.y = -1220;
             //meteor field
-            this._meteor1 = new objects.Meteor("meteorBig", new objects.Vector2(360, -700));
-            this._meteor2 = new objects.Meteor("meteorBig", new objects.Vector2(180, -500));
-            this._meteor3 = new objects.Meteor("meteorSmall", new objects.Vector2(760, -870));
-            this._meteor4 = new objects.Meteor("meteorSmall", new objects.Vector2(500, -450));
-            this._meteor5 = new objects.Meteor("meteorSmall", new objects.Vector2(220, -750));
+            this._meteor1 = new objects.Meteor("meteorBig", new objects.Vector2(640, -700));
+            this._meteor2 = new objects.Meteor("meteorBig", new objects.Vector2(120, -300));
+            this._meteor3 = new objects.Meteor("meteorSmall", new objects.Vector2(420, -560));
+            this._meteor4 = new objects.Meteor("meteorSmall", new objects.Vector2(450, -650));
+            this._meteor5 = new objects.Meteor("meteorSmall", new objects.Vector2(220, -1200));
             this._meteor6 = new objects.Meteor("meteorBig", new objects.Vector2(750, -1450));
             this._meteor7 = new objects.Meteor("meteorSmall", new objects.Vector2(220, -1600));
             this._meteor8 = new objects.Meteor("meteorBig", new objects.Vector2(700, -2200));
             this._meteor9 = new objects.Meteor("meteorSmall", new objects.Vector2(440, -2500));
-            this._meteor10 = new objects.Meteor("meteorBig", new objects.Vector2(300, -3200));
-            this._meteor11 = new objects.Meteor("meteorSmall", new objects.Vector2(440, -3450));
-            this._meteor12 = new objects.Meteor("meteorSmall", new objects.Vector2(700, -3300));
+            this._meteor10 = new objects.Meteor("meteorBig", new objects.Vector2(300, -2900));
+            this._meteor11 = new objects.Meteor("meteorSmall", new objects.Vector2(100, -3150));
+            this._meteor12 = new objects.Meteor("meteorSmall", new objects.Vector2(700, -2650));
+            this._meteor13 = new objects.Meteor("meteorSmall", new objects.Vector2(440, -1800));
+            this._meteor14 = new objects.Meteor("meteorSmall", new objects.Vector2(700, -1700));
+            this._meteor15 = new objects.Meteor("meteorSmall", new objects.Vector2(405, -3220));
+            this._meteor16 = new objects.Meteor("meteorBig", new objects.Vector2(620, -3450));
             this._meteorField = [];
             this._meteorField.push(this._meteor1);
             this._meteorField.push(this._meteor2);
@@ -50,21 +54,35 @@ var scenes;
             this._meteorField.push(this._meteor10);
             this._meteorField.push(this._meteor11);
             this._meteorField.push(this._meteor12);
+            this._meteorField.push(this._meteor13);
+            this._meteorField.push(this._meteor14);
+            this._meteorField.push(this._meteor15);
+            this._meteorField.push(this._meteor16);
             //Enemy Fleet
-            this._enemy1 = new objects.Enemy("enemyShip", new objects.Vector2(700, -1200));
-            this._enemy2 = new objects.Enemy("enemyShip", new objects.Vector2(280, -1800));
-            this._enemy3 = new objects.Enemy("enemyShip", new objects.Vector2(470, -1850));
-            this._enemy4 = new objects.Enemy("enemyShip", new objects.Vector2(350, -2050));
-            this._enemy5 = new objects.Enemy("enemyShip", new objects.Vector2(400, -2350));
+            this._enemy1 = new objects.Enemy("enemyShip", new objects.Vector2(540, -1200));
+            this._enemy2 = new objects.Enemy("enemyShip", new objects.Vector2(380, -1500));
+            this._enemy3 = new objects.Enemy("enemyShip", new objects.Vector2(20, -1600));
+            this._enemy4 = new objects.Enemy("enemyShip", new objects.Vector2(250, -800));
+            this._enemy5 = new objects.Enemy("enemyShip", new objects.Vector2(350, -2550));
+            this._enemy6 = new objects.Enemy("enemyShip", new objects.Vector2(670, -3150));
+            this._enemy7 = new objects.Enemy("enemyShip", new objects.Vector2(350, -2050));
+            this._enemy8 = new objects.Enemy("enemyShip", new objects.Vector2(200, -2350));
+            this._enemy9 = new objects.Enemy("enemyShip", new objects.Vector2(100, -2750));
             this._enemyFleet = [];
             this._enemyFleet.push(this._enemy1);
             this._enemyFleet.push(this._enemy2);
             this._enemyFleet.push(this._enemy3);
             this._enemyFleet.push(this._enemy4);
             this._enemyFleet.push(this._enemy5);
+            this._enemyFleet.push(this._enemy6);
+            this._enemyFleet.push(this._enemy7);
+            this._enemyFleet.push(this._enemy8);
+            this._enemyFleet.push(this._enemy9);
             //Boss
-            this._enemyBoss = new objects.EnemyBoss("enemyUFO", new objects.Vector2(300, -3600), 5);
-            //Life Sprites           
+            this._enemyBoss = new objects.EnemyBoss("enemyUFO", new objects.Vector2(300, -3600), 8);
+            this._enemyBoss.scaleX = .8;
+            this._enemyBoss.scaleY = .8;
+            //Life Sprites
             this._lifeDisplay = [];
             this._lifeDisplay.push(new createjs.Sprite(gameAtlas, "life"));
             this._lifeDisplay.push(new createjs.Sprite(gameAtlas, "life"));
@@ -81,11 +99,9 @@ var scenes;
             this._lifeDisplay[1].y = 570;
             this._lifeDisplay[0].x = 5;
             this._lifeDisplay[0].y = 570;
-            //Camera Container
             this._scrollableObjContainer = new createjs.Container();
             this._scrollableObjContainer.regY = 600;
             this._scrollableObjContainer.name = "scrollContainer";
-            //Ship
             this._ship = new objects.Player("player");
             this._ship.life = life;
             this._scrollableObjContainer.addChild(this._bg1);
@@ -108,8 +124,7 @@ var scenes;
                 stage.addChild(this._lifeDisplay[i]);
             }
         };
-        //Scene Update 
-        Shooter.prototype.update = function () {
+        Level2.prototype.update = function () {
             this._ship.update();
             _super.prototype.update.call(this);
             life = this._ship.life;
@@ -227,7 +242,7 @@ var scenes;
             else {
                 this._enemyBoss.aimBool = false;
             }
-            if (Math.abs(this._enemyBoss.position.y - this._ship.position.y) < 400) {
+            if (Math.abs(this._enemyBoss.position.y - this._ship.position.y) < 700) {
                 this._enemyBoss.rangeBool = true;
             }
             else {
@@ -298,18 +313,18 @@ var scenes;
                 changeScene();
             }
         };
-        Object.defineProperty(Shooter.prototype, "getContainer", {
+        Object.defineProperty(Level2.prototype, "getContainer", {
             get: function () {
                 return this._scrollableObjContainer;
             },
             enumerable: true,
             configurable: true
         });
-        Shooter.prototype._scrollBGUp = function (speed) {
+        Level2.prototype._scrollBGUp = function (speed) {
             if (this._scrollableObjContainer.regY < 5000)
                 this._scrollableObjContainer.regY = speed - this._scrollTrigger;
         };
-        Shooter.prototype.checkScroll = function () {
+        Level2.prototype.checkScroll = function () {
             if (this._ship.y <= this._scrollTrigger && this._ship.scrollDistance >= this._ship.position.y) {
                 return true;
             }
@@ -317,7 +332,7 @@ var scenes;
                 return false;
             }
         };
-        Shooter.prototype.checkCollision = function (obj1, obj2) {
+        Level2.prototype.checkCollision = function (obj1, obj2) {
             if (obj2.x < obj1.x + obj1.getBounds().width &&
                 obj2.x + obj2.getBounds().width > obj1.x &&
                 obj2.y < obj1.y + obj1.getBounds().height &&
@@ -326,8 +341,8 @@ var scenes;
             }
             return false;
         };
-        return Shooter;
+        return Level2;
     }(objects.Scene));
-    scenes.Shooter = Shooter;
+    scenes.Level2 = Level2;
 })(scenes || (scenes = {}));
-//# sourceMappingURL=shooter.js.map
+//# sourceMappingURL=level2.js.map

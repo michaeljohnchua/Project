@@ -14,9 +14,9 @@ module objects {
         public aimBool : boolean = false;
         public rangeBool: boolean= false;
         public hitBool: boolean =false;
-        public life :number = 5;
+        public life :number;
 
-        constructor(imageString:string, position:objects.Vector2) {
+        constructor(imageString:string, position:objects.Vector2, life:number) {
             super(imageString, "");
 
             this._shots = [];
@@ -25,7 +25,7 @@ module objects {
             this.x = this.position.x;
             this.y = this.position.y;
             this._speed = 2;
-
+            this.life =life;
         }
 
         get getShots() : objects.EnemyLaser[] {

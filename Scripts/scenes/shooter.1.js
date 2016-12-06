@@ -25,10 +25,10 @@ var scenes;
             this._bg2.regY = 2560;
             this._bg2.y = -1220;
             //meteor field
-            this._meteor1 = new objects.Meteor("meteorBig", new objects.Vector2(360, -700));
-            this._meteor2 = new objects.Meteor("meteorBig", new objects.Vector2(180, -500));
-            this._meteor3 = new objects.Meteor("meteorSmall", new objects.Vector2(760, -870));
-            this._meteor4 = new objects.Meteor("meteorSmall", new objects.Vector2(500, -450));
+            this._meteor1 = new objects.Meteor("meteorBig", new objects.Vector2(340, -700));
+            this._meteor2 = new objects.Meteor("meteorBig", new objects.Vector2(240, -500));
+            this._meteor3 = new objects.Meteor("meteorSmall", new objects.Vector2(420, -800));
+            this._meteor4 = new objects.Meteor("meteorSmall", new objects.Vector2(500, -650));
             this._meteor5 = new objects.Meteor("meteorSmall", new objects.Vector2(220, -750));
             this._meteor6 = new objects.Meteor("meteorBig", new objects.Vector2(750, -1450));
             this._meteor7 = new objects.Meteor("meteorSmall", new objects.Vector2(220, -1600));
@@ -64,7 +64,7 @@ var scenes;
             this._enemyFleet.push(this._enemy5);
             //Boss
             this._enemyBoss = new objects.EnemyBoss("enemyUFO", new objects.Vector2(300, -3600), 5);
-            //Life Sprites           
+            //Life Sprites
             this._lifeDisplay = [];
             this._lifeDisplay.push(new createjs.Sprite(gameAtlas, "life"));
             this._lifeDisplay.push(new createjs.Sprite(gameAtlas, "life"));
@@ -81,11 +81,9 @@ var scenes;
             this._lifeDisplay[1].y = 570;
             this._lifeDisplay[0].x = 5;
             this._lifeDisplay[0].y = 570;
-            //Camera Container
             this._scrollableObjContainer = new createjs.Container();
             this._scrollableObjContainer.regY = 600;
             this._scrollableObjContainer.name = "scrollContainer";
-            //Ship
             this._ship = new objects.Player("player");
             this._ship.life = life;
             this._scrollableObjContainer.addChild(this._bg1);
@@ -108,7 +106,6 @@ var scenes;
                 stage.addChild(this._lifeDisplay[i]);
             }
         };
-        //Scene Update 
         Shooter.prototype.update = function () {
             this._ship.update();
             _super.prototype.update.call(this);
@@ -286,15 +283,11 @@ var scenes;
             for (var i = 0; i < this._ship.life; i++) {
                 stage.addChild(this._lifeDisplay[i]);
             }
-            //Level End Handler
             if (this._endDelay > 2000) {
                 if (this._stageWin) {
                     score += 500 * this._multiplier;
-                    scene = config.Scene.LEVEL2;
                 }
-                else {
-                    scene = config.Scene.GAMEOVER;
-                }
+                scene = config.Scene.GAMEOVER;
                 changeScene();
             }
         };
@@ -330,4 +323,4 @@ var scenes;
     }(objects.Scene));
     scenes.Shooter = Shooter;
 })(scenes || (scenes = {}));
-//# sourceMappingURL=shooter.js.map
+//# sourceMappingURL=shooter.1.js.map

@@ -16,7 +16,6 @@ var objects;
             this.speed = 5;
             this.timer = 800;
             this.hitBool = false;
-            this.life = 5;
             this._shots = [];
             this.width = this.getBounds().width;
             this.height = this.getBounds().height;
@@ -25,6 +24,9 @@ var objects;
             this.y = -50;
             window.onkeydown = this._onKeyDown;
             window.onkeyup = this._onKeyUp;
+            this.shield = new createjs.Sprite(gameAtlas, "shield");
+            this.shield.x = this.x - 27;
+            this.shield.y = this.y - 23;
         }
         Object.defineProperty(Player.prototype, "getShots", {
             get: function () {
@@ -33,8 +35,17 @@ var objects;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(Player.prototype, "getInvincible", {
+            get: function () {
+                return this._invincible;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Player.prototype.update = function () {
             _super.prototype.update.call(this);
+            this.shield.x = this.x - 27;
+            this.shield.y = this.y - 23;
             this.timer += createjs.Ticker.interval;
             if (controls.UP) {
                 this.moveUp();
@@ -62,12 +73,7 @@ var objects;
                 laser.update();
             }
             if (this.hitBool) {
-                if (this._invincible) {
-                    if (this._invincibleTimer > 1500) {
-                        this._invincible = false;
-                    }
-                }
-                else {
+                if (this._invincible == false) {
                     this.life -= 1;
                     console.log(this.life);
                     this._invincible = true;
@@ -80,6 +86,9 @@ var objects;
                 this.speed = 0;
             }
             this._invincibleTimer += createjs.Ticker.interval;
+            if (this._invincible && this._invincibleTimer > 3000) {
+                this._invincible = false;
+            }
         };
         Player.prototype._onKeyDown = function (event) {
             switch (event.keyCode) {
@@ -134,7 +143,7 @@ var objects;
             }
         };
         Player.prototype.moveLeft = function () {
-            console.log(this.position.x);
+            //console.log(this.position.x);
             if (this.position.x > -10) {
                 this.position.x -= this.speed;
                 this.gotoAndStop("playerLeft");

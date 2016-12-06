@@ -1,5 +1,5 @@
 module scenes {
-    export class Shooter extends objects.Scene {
+    export class Level2 extends objects.Scene {
 
         private _bg1 : createjs.Bitmap;
         private _bg2 : createjs.Bitmap;
@@ -18,6 +18,10 @@ module scenes {
         private _meteor10: objects.Meteor;
         private _meteor11: objects.Meteor;
         private _meteor12: objects.Meteor;
+        private _meteor13: objects.Meteor;
+        private _meteor14: objects.Meteor;
+        private _meteor15: objects.Meteor;
+        private _meteor16: objects.Meteor;
         private _meteorField: objects.Meteor[];
 
         private _enemy1 : objects.Enemy;
@@ -25,6 +29,10 @@ module scenes {
         private _enemy3 : objects.Enemy;
         private _enemy4 : objects.Enemy;
         private _enemy5 : objects.Enemy;
+        private _enemy6: objects.Enemy;
+        private _enemy7 : objects.Enemy;
+        private _enemy8 : objects.Enemy;
+        private _enemy9 : objects.Enemy;
         private _enemyFleet: objects.Enemy[];
 
 
@@ -43,7 +51,7 @@ module scenes {
         private _lifeDisplay: createjs.Sprite[];
 
         score = 0;
-        private _multiplier:number =1;
+        private _multiplier:number = 2;
         private _stageWin: boolean = false;
         
         constructor() {
@@ -64,20 +72,26 @@ module scenes {
             this._bg2.y =-1220;   
             
              //meteor field
-            this._meteor1 = new objects.Meteor("meteorBig",new objects.Vector2(360,-700));
-            this._meteor2 = new objects.Meteor("meteorBig",new objects.Vector2(180,-500));
-            this._meteor3 = new objects.Meteor("meteorSmall",new objects.Vector2(760,-870));
-            this._meteor4 = new objects.Meteor("meteorSmall",new objects.Vector2(500,-450));
-            this._meteor5 = new objects.Meteor("meteorSmall",new objects.Vector2(220,-750));
+            this._meteor1 = new objects.Meteor("meteorBig",new objects.Vector2(640,-700));
+            this._meteor2 = new objects.Meteor("meteorBig",new objects.Vector2(120,-300));
+            this._meteor3 = new objects.Meteor("meteorSmall",new objects.Vector2(420,-560));
+            this._meteor4 = new objects.Meteor("meteorSmall",new objects.Vector2(450,-650));
+            this._meteor5 = new objects.Meteor("meteorSmall",new objects.Vector2(220,-1200));
 
             this._meteor6 = new objects.Meteor("meteorBig",new objects.Vector2(750,-1450));
             this._meteor7 = new objects.Meteor("meteorSmall",new objects.Vector2(220,-1600));
             this._meteor8 = new objects.Meteor("meteorBig",new objects.Vector2(700,-2200));
             this._meteor9 = new objects.Meteor("meteorSmall",new objects.Vector2(440,-2500));
 
-            this._meteor10 = new objects.Meteor("meteorBig",new objects.Vector2(300,-3200));
-            this._meteor11 = new objects.Meteor("meteorSmall",new objects.Vector2(440,-3450));
-            this._meteor12 = new objects.Meteor("meteorSmall",new objects.Vector2(700,-3300));
+            this._meteor10 = new objects.Meteor("meteorBig",new objects.Vector2(300,-2900));
+            this._meteor11 = new objects.Meteor("meteorSmall",new objects.Vector2(100,-3150));
+            this._meteor12 = new objects.Meteor("meteorSmall",new objects.Vector2(700,-2650));
+
+            this._meteor13 = new objects.Meteor("meteorSmall",new objects.Vector2(440,-1800));
+            this._meteor14 = new objects.Meteor("meteorSmall",new objects.Vector2(700,-1700));
+            this._meteor15 = new objects.Meteor("meteorSmall",new objects.Vector2(405,-3220));
+            this._meteor16 = new objects.Meteor("meteorBig",new objects.Vector2(620,-3450));
+
 
             this._meteorField = [];
             this._meteorField.push(this._meteor1);
@@ -92,24 +106,39 @@ module scenes {
             this._meteorField.push(this._meteor10);
             this._meteorField.push(this._meteor11);
             this._meteorField.push(this._meteor12);
-
+            this._meteorField.push(this._meteor13);
+            this._meteorField.push(this._meteor14);
+            this._meteorField.push(this._meteor15);
+            this._meteorField.push(this._meteor16);
             //Enemy Fleet
-            this._enemy1 = new objects.Enemy("enemyShip",new objects.Vector2(700,-1200));
-            this._enemy2 = new objects.Enemy("enemyShip",new objects.Vector2(280,-1800));
-            this._enemy3 = new objects.Enemy("enemyShip",new objects.Vector2(470,-1850));
-            this._enemy4 = new objects.Enemy("enemyShip",new objects.Vector2(350,-2050));
-            this._enemy5 = new objects.Enemy("enemyShip",new objects.Vector2(400,-2350));
+            this._enemy1 = new objects.Enemy("enemyShip",new objects.Vector2(540,-1200));
+            this._enemy2 = new objects.Enemy("enemyShip",new objects.Vector2(380,-1500));
+            this._enemy3 = new objects.Enemy("enemyShip",new objects.Vector2(20,-1600));
+            this._enemy4 = new objects.Enemy("enemyShip",new objects.Vector2(250,-800));
+            this._enemy5 = new objects.Enemy("enemyShip",new objects.Vector2(350,-2550));
+            this._enemy6 = new objects.Enemy("enemyShip",new objects.Vector2(670,-3150));
+            this._enemy7 = new objects.Enemy("enemyShip",new objects.Vector2(350,-2050));
+            this._enemy8 = new objects.Enemy("enemyShip",new objects.Vector2(200,-2350));
+            this._enemy9 = new objects.Enemy("enemyShip",new objects.Vector2(100,-2750));
+
             this._enemyFleet = [];
             this._enemyFleet.push(this._enemy1);
             this._enemyFleet.push(this._enemy2);
             this._enemyFleet.push(this._enemy3);
             this._enemyFleet.push(this._enemy4);
             this._enemyFleet.push(this._enemy5);
+            this._enemyFleet.push(this._enemy6);
+            this._enemyFleet.push(this._enemy7);
+            this._enemyFleet.push(this._enemy8);
+            this._enemyFleet.push(this._enemy9);
 
             //Boss
-            this._enemyBoss = new objects.EnemyBoss("enemyUFO",new objects.Vector2(300,-3600),5);
+            this._enemyBoss = new objects.EnemyBoss("enemyUFO",new objects.Vector2(300,-3600),8);
+            this._enemyBoss.scaleX =.8;
+            this._enemyBoss.scaleY =.8;
+            //Life Sprites
+
             
-            //Life Sprites           
             this._lifeDisplay=[];
             this._lifeDisplay.push( new createjs.Sprite(gameAtlas,"life")); 
             this._lifeDisplay.push( new createjs.Sprite(gameAtlas,"life"));
@@ -132,15 +161,12 @@ module scenes {
             this._lifeDisplay[0].x = 5;
             this._lifeDisplay[0].y = 570;     
              
-            //Camera Container
             this._scrollableObjContainer = new createjs.Container();
             this._scrollableObjContainer.regY=600;
             this._scrollableObjContainer.name ="scrollContainer";       
-            
-            //Ship
             this._ship = new objects.Player("player");
-            this._ship.life = life;  
-
+            this._ship.life = life;
+           
             this._scrollableObjContainer.addChild(this._bg1);
             this._scrollableObjContainer.addChild(this._bg2);
             this._scrollableObjContainer.addChild(this._ship);
@@ -151,8 +177,9 @@ module scenes {
             for(let e of this._enemyFleet) {
                this._scrollableObjContainer.addChild(e);
             }
-           this._scrollableObjContainer.addChild(this._enemyBoss);
-           
+
+           this._scrollableObjContainer.addChild(this._enemyBoss);         
+
             this.addChild(this._scrollableObjContainer);
             stage.addChild(this);
 
@@ -162,10 +189,10 @@ module scenes {
             for (var i=0;i<this._ship.life;i++){
                    stage.addChild(this._lifeDisplay[i]);
             }
-         
+
+            
         }
 
-        //Scene Update 
         public update() : void {
             this._ship.update();
             super.update();
@@ -307,7 +334,7 @@ module scenes {
                     this._enemyBoss.aimBool=false;
                 }
 
-                if (Math.abs(this._enemyBoss.position.y-this._ship.position.y) <400 )
+                if (Math.abs(this._enemyBoss.position.y-this._ship.position.y) <700 )
                 {
                     this._enemyBoss.rangeBool = true;                  
                 }
