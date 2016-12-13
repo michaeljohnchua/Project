@@ -8,6 +8,7 @@ module config {
         public static HELP : number = 2;
         public static GAMEOVER : number = 3;
         public static LEVEL2 : number = 4;
+        public static LEVEL3 : number = 5;
     }
 
     export class Screen {

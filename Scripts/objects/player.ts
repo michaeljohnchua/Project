@@ -15,7 +15,7 @@ module objects {
         public centerX:number;
         public centerY:number;
         public scrollDistance : number = 300;
-        public speed : number =5;
+        public speed : number =7;
         public timer : number = 800;
         public hitBool: boolean = false;
         public life: number;
@@ -73,11 +73,14 @@ module objects {
             else{
                 this.gotoAndStop("player")
             }
-            if(controls.SHOOT && this.timer > 800) {
+            if(controls.SHOOT && this.timer > 600) {
                 let newLaser = new objects.Laser();
                 newLaser.setPosition(new objects.Vector2((this.position.x + (this.getBounds().width/2)-3), this.position.y -30));
                 this._shots.push(newLaser);
                 this.timer = 0.0;
+
+                //Laser Sound
+                createjs.Sound.play("LaserSound");
             }
             for (let laser of this._shots) {
                 laser.update();
@@ -90,6 +93,7 @@ module objects {
                     console.log(this.life);
                     this._invincible = true;
                     this._invincibleTimer =0;
+                    createjs.Sound.play("LoseLifeScore");
                 }
                  this.hitBool = false;
             }

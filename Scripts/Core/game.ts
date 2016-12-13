@@ -15,25 +15,34 @@ var gameWin : boolean = false;
 
 var score : number =0;
 var life: number = 5;
+var music: createjs.Sound;
 
 // Preload Assets required
 var assetData:objects.Asset[] = [
-    {id: "Space_BG", src:"../../Assets/images/space_bg.png"},
+    {id: "Nebula", src:"../../Assets/images/Nebula.png"},
+    {id: "Nebula2", src:"../../Assets/images/Nebula2.png"},
+    {id: "Nebula3", src:"../../Assets/images/Nebula3.png"},
     {id: "Menu_BG", src:"../../Assets/images/menuBG.jpg"},
     {id: "PlayBtn", src:"../../Assets/images/start.png"},
     {id: "HelpBtn", src:"../../Assets/images/help.png"},
     {id: "BackBtn", src:"../../Assets/images/BackBtn.png"},
     {id: "Atlas", src:"../../Assets/images/spritesheet.png"},
-    {id: "Title", src:"../../Assets/images/Title.png"},
     {id: "HelpBG", src:"../../Assets/images/HelpBG.png"},
-    {id: "GameOverBG", src:"../../Assets/images/GameOver.png"}
+    {id: "GameOverBG", src:"../../Assets/images/GameOver.png"},
+    {id: "MainMenuscore", src: "../../Assets/audio/MainMenu.mp3"},
+    {id: "Level1score", src: "../../Assets/audio/Level1.mp3"},
+    {id: "Level2score", src: "../../Assets/audio/Level2.mp3"},
+    {id: "Level3score", src: "../../Assets/audio/Level3.mp3"},
+    {id: "LoseLifeScore", src: "../../Assets/audio/LoseLife.mp3"},
+    {id: "GameOverScore", src: "../../Assets/audio/GameOver.mp3"},
+    {id: "LaserSound", src: "../../Assets/audio/Laser.mp3"},
 ];
 
 function preload() {
     // Create a queue for assets being loaded
     assets = new createjs.LoadQueue(false);
     // assets.installPlugin(createjs.Sound);
-
+     assets.installPlugin(createjs.Sound);
 
     // Register callback function to be run when assets complete loading.
     assets.on("complete", init, this);
@@ -99,7 +108,7 @@ function init() {
     gameAtlas = new createjs.SpriteSheet(atlasData);
 
     scene = config.Scene.MENU;
-    //scene = config.Scene.LEVEL2;
+    
     changeScene();
 }
 
@@ -128,6 +137,11 @@ function changeScene() : void {
             stage.removeAllChildren();
             currentScene = new scenes.Level2();
             console.log("Starting Level 2");
+            break;
+        case config.Scene.LEVEL3 :
+            stage.removeAllChildren();
+            currentScene = new scenes.Level3();
+            console.log("Starting Level 3");
             break;
         case config.Scene.HELP :
             stage.removeAllChildren();

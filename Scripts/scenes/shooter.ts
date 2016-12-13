@@ -55,11 +55,11 @@ module scenes {
 
             this._stageWin = false;
            
-            this._bg1 = new createjs.Bitmap(assets.getResult("Space_BG"));
+            this._bg1 = new createjs.Bitmap(assets.getResult("Nebula"));
             this._bg1.regY = 2560;
             this._bg1.y =600; 
 
-            this._bg2 = new createjs.Bitmap(assets.getResult("Space_BG"));
+            this._bg2 = new createjs.Bitmap(assets.getResult("Nebula"));
             this._bg2.regY = 2560;
             this._bg2.y =-1220;   
             
@@ -107,7 +107,7 @@ module scenes {
             this._enemyFleet.push(this._enemy5);
 
             //Boss
-            this._enemyBoss = new objects.EnemyBoss("enemyUFO",new objects.Vector2(300,-3600),5);
+            this._enemyBoss = new objects.EnemyBoss("enemyUFO",new objects.Vector2(300,-3600),4);
             
             //Life Sprites           
             this._lifeDisplay=[];
@@ -163,6 +163,9 @@ module scenes {
                    stage.addChild(this._lifeDisplay[i]);
             }
          
+            //music
+            createjs.Sound.stop();
+            createjs.Sound.play("Level1score");
         }
 
         //Scene Update 
@@ -186,7 +189,7 @@ module scenes {
                     this._ship.hitBool = true;
                     e.hitBool = true;
                 }
-                if (Math.abs(e.position.x-this._ship.position.x) <25 )
+                if (Math.abs(e.position.x-this._ship.position.x) <50 )
                 {
                     e.aimBool = true;                    
                 }
@@ -194,7 +197,7 @@ module scenes {
                     e.aimBool=false;
                 }
 
-                if (Math.abs(e.position.y-this._ship.position.y) <400 )
+                if (Math.abs(e.position.y-this._ship.position.y) <450 )
                 {
                     e.rangeBool = true;                  
                 }
@@ -202,6 +205,26 @@ module scenes {
                     e.rangeBool=false;
                 }
                
+               //x axis direction
+                 if (e.position.x-this._ship.position.x <= 0 )
+                {
+                    e.direction = 1;                    
+                }
+                else {
+                    e.direction = -1; 
+                }
+
+                //Speed trigger 
+                if (Math.abs(e.position.y-this._ship.position.y) < 750 )
+                {
+                    e.speedx=2;
+                    e.speedy=2;                  
+                }
+                else {
+                    e.speedx=0;
+                    e.speedy=0;
+                }
+
                 //Enemy Laser Check
                 for (let l of e.getShots){
 
@@ -229,8 +252,8 @@ module scenes {
                             }
                         }   
                         
+                    }
                 }
-
                 //Check player lasers and enemy collision
                 for(let i of this._ship.getShots){
                      if (this.checkCollision(i,e) && i.hitBool == false && e.hitBool==false){
@@ -239,22 +262,14 @@ module scenes {
                          score += 100*this._multiplier; 
                      }
 
-                //Check meteor and enemy collisions
-                for(let m of this._meteorField){
-                  if (this.checkCollision(m,e) && e.hitBool==false){
-                       e.hitBool=true;
-                    }
                 }
 
-                }
 
                     //if enemy is hit remove from container
                     if (e.hitBool){
                     this._scrollableObjContainer.removeChild(e);
                     }
-
-                }
-
+                 
                e.update();
 
             }
@@ -299,7 +314,7 @@ module scenes {
 
             //Boss Fight Update
             this._enemyBoss.update();
-            if (Math.abs(this._enemyBoss.position.x-this._ship.position.x) <25 )
+            if (Math.abs(this._enemyBoss.position.x-this._ship.position.x) <75 )
                 {
                     this._enemyBoss.aimBool = true;                    
                 }
@@ -307,7 +322,7 @@ module scenes {
                     this._enemyBoss.aimBool=false;
                 }
 
-                if (Math.abs(this._enemyBoss.position.y-this._ship.position.y) <400 )
+                if (Math.abs(this._enemyBoss.position.y-this._ship.position.y) <600 )
                 {
                     this._enemyBoss.rangeBool = true;                  
                 }

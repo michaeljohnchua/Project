@@ -1,7 +1,7 @@
 module objects{
     export class Laser extends objects.GameObject {
 
-        public speed : number = 15;
+        public speed : number = 17;
         
         public addToContainer : boolean = false;
         public hitBool : boolean = false;

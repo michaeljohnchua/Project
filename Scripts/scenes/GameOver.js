@@ -25,14 +25,20 @@ var scenes;
             else {
                 this._winText = "Mission Failed";
             }
-            this._labelWin = new objects.Label(this._winText, "80px Playbill", "#A9A9A9", 430, 400);
+            this._labelWin = new objects.Label(this._winText, "80px Impact", "#FFD13D", 430, 300);
             this.addChild(this._labelWin);
             this._backBtn = new objects.Button("BackBtn", 750, 25);
             this._backBtn.scaleX = .2;
             this._backBtn.scaleY = .2;
             this._backBtn.on("click", this._backBtnClick, this);
+            this._labelScore = new objects.Label("Total Score: " + score, "80px Impact", "#FFD13D", 430, 500);
+            this.addChild(this._labelScore);
             this.addChild(this._backBtn);
             stage.addChild(this);
+            //Music
+            //Music
+            createjs.Sound.stop();
+            createjs.Sound.play("GameOverScore");
         };
         GameOver.prototype.update = function () {
         };

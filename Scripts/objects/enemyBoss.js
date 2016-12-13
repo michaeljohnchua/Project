@@ -13,6 +13,7 @@ var objects;
             this.aimBool = false;
             this.rangeBool = false;
             this.hitBool = false;
+            this.level = 0;
             this._shots = [];
             this.name = imageString;
             this.position = position;
@@ -39,10 +40,24 @@ var objects;
             }
             this.position.x += this._speed;
             this.timer += createjs.Ticker.interval;
-            if (this.aimBool && this.rangeBool && this.timer > 1200 && this.life > 0) {
+            if (this.aimBool && this.rangeBool && this.timer > 1000 && this.life > 0) {
                 var newLaser = new objects.EnemyLaser();
                 newLaser.setPosition(new objects.Vector2((this.position.x + (this.getBounds().width / 2) - 3), this.position.y + 100));
                 this._shots.push(newLaser);
+                //level 2 & 3 projectiles
+                if (this.level > 1) {
+                    newLaser = new objects.EnemyLaser();
+                    newLaser.setPosition(new objects.Vector2((this.position.x + (this.getBounds().width / 2) - 3), this.position.y + 100));
+                    newLaser.rotation = 30;
+                    newLaser.speedx = 3;
+                    this._shots.push(newLaser);
+                    newLaser = new objects.EnemyLaser();
+                    newLaser.setPosition(new objects.Vector2((this.position.x + (this.getBounds().width / 2) - 3), this.position.y + 100));
+                    newLaser.rotation = -30;
+                    newLaser.speedx = -3;
+                    this._shots.push(newLaser);
+                }
+                createjs.Sound.play("LaserSound");
                 this.timer = 0.0;
             }
             if (this.hitBool) {

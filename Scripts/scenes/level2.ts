@@ -63,11 +63,11 @@ module scenes {
 
             this._stageWin = false;
            
-            this._bg1 = new createjs.Bitmap(assets.getResult("Space_BG"));
+            this._bg1 = new createjs.Bitmap(assets.getResult("Nebula2"));
             this._bg1.regY = 2560;
             this._bg1.y =600; 
 
-            this._bg2 = new createjs.Bitmap(assets.getResult("Space_BG"));
+            this._bg2 = new createjs.Bitmap(assets.getResult("Nebula2"));
             this._bg2.regY = 2560;
             this._bg2.y =-1220;   
             
@@ -133,11 +133,11 @@ module scenes {
             this._enemyFleet.push(this._enemy9);
 
             //Boss
-            this._enemyBoss = new objects.EnemyBoss("enemyUFO",new objects.Vector2(300,-3600),8);
+            this._enemyBoss = new objects.EnemyBoss("enemyUFO",new objects.Vector2(300,-3600),6);
             this._enemyBoss.scaleX =.8;
             this._enemyBoss.scaleY =.8;
+            this._enemyBoss.level =2;
             //Life Sprites
-
             
             this._lifeDisplay=[];
             this._lifeDisplay.push( new createjs.Sprite(gameAtlas,"life")); 
@@ -190,9 +190,13 @@ module scenes {
                    stage.addChild(this._lifeDisplay[i]);
             }
 
+            //Music
+            createjs.Sound.stop();
+            createjs.Sound.play("Level2score");
             
         }
 
+     //Scene Update 
         public update() : void {
             this._ship.update();
             super.update();
@@ -213,7 +217,7 @@ module scenes {
                     this._ship.hitBool = true;
                     e.hitBool = true;
                 }
-                if (Math.abs(e.position.x-this._ship.position.x) <25 )
+                if (Math.abs(e.position.x-this._ship.position.x) <50 )
                 {
                     e.aimBool = true;                    
                 }
@@ -221,7 +225,7 @@ module scenes {
                     e.aimBool=false;
                 }
 
-                if (Math.abs(e.position.y-this._ship.position.y) <400 )
+                if (Math.abs(e.position.y-this._ship.position.y) <450 )
                 {
                     e.rangeBool = true;                  
                 }
@@ -229,6 +233,26 @@ module scenes {
                     e.rangeBool=false;
                 }
                
+               //x axis direction
+                 if (e.position.x-this._ship.position.x <= 0 )
+                {
+                    e.direction = 1;                    
+                }
+                else {
+                    e.direction = -1; 
+                }
+
+                //Speed trigger 
+                if (Math.abs(e.position.y-this._ship.position.y) < 750 )
+                {
+                    e.speedx=2;
+                    e.speedy=2;                  
+                }
+                else {
+                    e.speedx=0;
+                    e.speedy=0;
+                }
+
                 //Enemy Laser Check
                 for (let l of e.getShots){
 
@@ -256,32 +280,27 @@ module scenes {
                             }
                         }   
                         
+                    }
+
                 }
 
                 //Check player lasers and enemy collision
                 for(let i of this._ship.getShots){
-                     if (this.checkCollision(i,e) && i.hitBool == false && e.hitBool==false){
+                 if (this.checkCollision(i,e) && i.hitBool == false && e.hitBool==false){
                          i.hitBool =true;
                          e.hitBool = true;
                          score += 100*this._multiplier; 
                      }
-
-                //Check meteor and enemy collisions
-                for(let m of this._meteorField){
-                  if (this.checkCollision(m,e) && e.hitBool==false){
-                       e.hitBool=true;
-                    }
                 }
 
-                }
+                   
 
-                    //if enemy is hit remove from container
-                    if (e.hitBool){
+             //if enemy is hit remove from container
+             if (e.hitBool){
                     this._scrollableObjContainer.removeChild(e);
-                    }
+             }
 
-                }
-
+                 
                e.update();
 
             }
@@ -326,7 +345,7 @@ module scenes {
 
             //Boss Fight Update
             this._enemyBoss.update();
-            if (Math.abs(this._enemyBoss.position.x-this._ship.position.x) <25 )
+            if (Math.abs(this._enemyBoss.position.x-this._ship.position.x) <75 )
                 {
                     this._enemyBoss.aimBool = true;                    
                 }
@@ -334,7 +353,7 @@ module scenes {
                     this._enemyBoss.aimBool=false;
                 }
 
-                if (Math.abs(this._enemyBoss.position.y-this._ship.position.y) <700 )
+                if (Math.abs(this._enemyBoss.position.y-this._ship.position.y) <650 )
                 {
                     this._enemyBoss.rangeBool = true;                  
                 }
@@ -408,8 +427,7 @@ module scenes {
             if(this._endDelay> 2000){
                 if (this._stageWin){
                     score+=500*this._multiplier;
-                    scene = config.Scene.GAMEOVER;
-                    gameWin=true;
+                    scene = config.Scene.LEVEL3;
                 }
                 else{
                     scene = config.Scene.GAMEOVER;
@@ -417,6 +435,7 @@ module scenes {
                 
                 changeScene();
             }
+
         }
 
         get getContainer() : createjs.Container {

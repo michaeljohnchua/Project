@@ -13,7 +13,7 @@ var objects;
             this._invincible = false;
             this._invincibleTimer = 0;
             this.scrollDistance = 300;
-            this.speed = 5;
+            this.speed = 7;
             this.timer = 800;
             this.hitBool = false;
             this._shots = [];
@@ -62,11 +62,13 @@ var objects;
             else {
                 this.gotoAndStop("player");
             }
-            if (controls.SHOOT && this.timer > 800) {
+            if (controls.SHOOT && this.timer > 600) {
                 var newLaser = new objects.Laser();
                 newLaser.setPosition(new objects.Vector2((this.position.x + (this.getBounds().width / 2) - 3), this.position.y - 30));
                 this._shots.push(newLaser);
                 this.timer = 0.0;
+                //Laser Sound
+                createjs.Sound.play("LaserSound");
             }
             for (var _i = 0, _a = this._shots; _i < _a.length; _i++) {
                 var laser = _a[_i];
@@ -78,6 +80,7 @@ var objects;
                     console.log(this.life);
                     this._invincible = true;
                     this._invincibleTimer = 0;
+                    createjs.Sound.play("LoseLifeScore");
                 }
                 this.hitBool = false;
             }

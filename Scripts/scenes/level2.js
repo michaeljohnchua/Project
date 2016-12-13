@@ -18,10 +18,10 @@ var scenes;
         }
         Level2.prototype.start = function () {
             this._stageWin = false;
-            this._bg1 = new createjs.Bitmap(assets.getResult("Space_BG"));
+            this._bg1 = new createjs.Bitmap(assets.getResult("Nebula2"));
             this._bg1.regY = 2560;
             this._bg1.y = 600;
-            this._bg2 = new createjs.Bitmap(assets.getResult("Space_BG"));
+            this._bg2 = new createjs.Bitmap(assets.getResult("Nebula2"));
             this._bg2.regY = 2560;
             this._bg2.y = -1220;
             //meteor field
@@ -79,9 +79,10 @@ var scenes;
             this._enemyFleet.push(this._enemy8);
             this._enemyFleet.push(this._enemy9);
             //Boss
-            this._enemyBoss = new objects.EnemyBoss("enemyUFO", new objects.Vector2(300, -3600), 8);
+            this._enemyBoss = new objects.EnemyBoss("enemyUFO", new objects.Vector2(300, -3600), 6);
             this._enemyBoss.scaleX = .8;
             this._enemyBoss.scaleY = .8;
+            this._enemyBoss.level = 2;
             //Life Sprites
             this._lifeDisplay = [];
             this._lifeDisplay.push(new createjs.Sprite(gameAtlas, "life"));
@@ -123,7 +124,11 @@ var scenes;
             for (var i = 0; i < this._ship.life; i++) {
                 stage.addChild(this._lifeDisplay[i]);
             }
+            //Music
+            createjs.Sound.stop();
+            createjs.Sound.play("Level2score");
         };
+        //Scene Update 
         Level2.prototype.update = function () {
             this._ship.update();
             _super.prototype.update.call(this);
@@ -142,17 +147,33 @@ var scenes;
                     this._ship.hitBool = true;
                     e.hitBool = true;
                 }
-                if (Math.abs(e.position.x - this._ship.position.x) < 25) {
+                if (Math.abs(e.position.x - this._ship.position.x) < 50) {
                     e.aimBool = true;
                 }
                 else {
                     e.aimBool = false;
                 }
-                if (Math.abs(e.position.y - this._ship.position.y) < 400) {
+                if (Math.abs(e.position.y - this._ship.position.y) < 450) {
                     e.rangeBool = true;
                 }
                 else {
                     e.rangeBool = false;
+                }
+                //x axis direction
+                if (e.position.x - this._ship.position.x <= 0) {
+                    e.direction = 1;
+                }
+                else {
+                    e.direction = -1;
+                }
+                //Speed trigger 
+                if (Math.abs(e.position.y - this._ship.position.y) < 750) {
+                    e.speedx = 2;
+                    e.speedy = 2;
+                }
+                else {
+                    e.speedx = 0;
+                    e.speedy = 0;
                 }
                 //Enemy Laser Check
                 for (var _b = 0, _c = e.getShots; _b < _c.length; _b++) {
@@ -179,26 +200,19 @@ var scenes;
                             }
                         }
                     }
-                    //Check player lasers and enemy collision
-                    for (var _f = 0, _h = this._ship.getShots; _f < _h.length; _f++) {
-                        var i_1 = _h[_f];
-                        if (this.checkCollision(i_1, e) && i_1.hitBool == false && e.hitBool == false) {
-                            i_1.hitBool = true;
-                            e.hitBool = true;
-                            score += 100 * this._multiplier;
-                        }
-                        //Check meteor and enemy collisions
-                        for (var _j = 0, _k = this._meteorField; _j < _k.length; _j++) {
-                            var m = _k[_j];
-                            if (this.checkCollision(m, e) && e.hitBool == false) {
-                                e.hitBool = true;
-                            }
-                        }
+                }
+                //Check player lasers and enemy collision
+                for (var _f = 0, _h = this._ship.getShots; _f < _h.length; _f++) {
+                    var i_1 = _h[_f];
+                    if (this.checkCollision(i_1, e) && i_1.hitBool == false && e.hitBool == false) {
+                        i_1.hitBool = true;
+                        e.hitBool = true;
+                        score += 100 * this._multiplier;
                     }
-                    //if enemy is hit remove from container
-                    if (e.hitBool) {
-                        this._scrollableObjContainer.removeChild(e);
-                    }
+                }
+                //if enemy is hit remove from container
+                if (e.hitBool) {
+                    this._scrollableObjContainer.removeChild(e);
                 }
                 e.update();
             }
@@ -210,15 +224,15 @@ var scenes;
                 this._scrollBGUp(this._ship.position.y);
             }
             //Ship and meteor Check
-            for (var _l = 0, _m = this._meteorField; _l < _m.length; _l++) {
-                var m = _m[_l];
+            for (var _j = 0, _k = this._meteorField; _j < _k.length; _j++) {
+                var m = _k[_j];
                 if (this.checkCollision(this._ship, m)) {
                     this._ship.hitBool = true;
                 }
             }
             //Laser and Meteor Collision Check
-            for (var _o = 0, _p = this._ship.getShots; _o < _p.length; _o++) {
-                var i_2 = _p[_o];
+            for (var _l = 0, _m = this._ship.getShots; _l < _m.length; _l++) {
+                var i_2 = _m[_l];
                 if (i_2.addToContainer == false) {
                     this._scrollableObjContainer.addChild(i_2);
                     i_2.addToContainer = true;
@@ -227,8 +241,8 @@ var scenes;
                 if (i_2.timer >= 4 && i_2.hitBool) {
                     this._scrollableObjContainer.removeChild(i_2);
                 }
-                for (var _q = 0, _r = this._meteorField; _q < _r.length; _q++) {
-                    var m = _r[_q];
+                for (var _o = 0, _p = this._meteorField; _o < _p.length; _o++) {
+                    var m = _p[_o];
                     if (this.checkCollision(i_2, m) && i_2.hitBool == false) {
                         i_2.hitBool = true;
                     }
@@ -236,13 +250,13 @@ var scenes;
             }
             //Boss Fight Update
             this._enemyBoss.update();
-            if (Math.abs(this._enemyBoss.position.x - this._ship.position.x) < 25) {
+            if (Math.abs(this._enemyBoss.position.x - this._ship.position.x) < 75) {
                 this._enemyBoss.aimBool = true;
             }
             else {
                 this._enemyBoss.aimBool = false;
             }
-            if (Math.abs(this._enemyBoss.position.y - this._ship.position.y) < 700) {
+            if (Math.abs(this._enemyBoss.position.y - this._ship.position.y) < 650) {
                 this._enemyBoss.rangeBool = true;
             }
             else {
@@ -250,8 +264,8 @@ var scenes;
             }
             //Boss Laser checks
             //Enemy Laser Check
-            for (var _s = 0, _t = this._enemyBoss.getShots; _s < _t.length; _s++) {
-                var l = _t[_s];
+            for (var _q = 0, _r = this._enemyBoss.getShots; _q < _r.length; _q++) {
+                var l = _r[_q];
                 //add to container
                 if (l.addToContainer == false) {
                     this._scrollableObjContainer.addChild(l);
@@ -267,8 +281,8 @@ var scenes;
                         l.gotoAndStop("laserRedShot");
                         this._ship.hitBool = true;
                     }
-                    for (var _u = 0, _v = this._meteorField; _u < _v.length; _u++) {
-                        var m = _v[_u];
+                    for (var _s = 0, _t = this._meteorField; _s < _t.length; _s++) {
+                        var m = _t[_s];
                         if (this.checkCollision(m, l)) {
                             l.hitBool = true;
                         }
@@ -276,8 +290,8 @@ var scenes;
                 }
             }
             //boss and Laser hit test
-            for (var _w = 0, _x = this._ship.getShots; _w < _x.length; _w++) {
-                var i_3 = _x[_w];
+            for (var _u = 0, _v = this._ship.getShots; _u < _v.length; _u++) {
+                var i_3 = _v[_u];
                 if (this.checkCollision(i_3, this._enemyBoss) && i_3.hitBool == false && this._enemyBoss.hitBool == false) {
                     i_3.hitBool = true;
                     this._enemyBoss.hitBool = true;
@@ -294,8 +308,8 @@ var scenes;
             }
             //Life Update
             this._scoreLabel.text = "" + score;
-            for (var _y = 0, _z = this._lifeDisplay; _y < _z.length; _y++) {
-                var i_4 = _z[_y];
+            for (var _w = 0, _x = this._lifeDisplay; _w < _x.length; _w++) {
+                var i_4 = _x[_w];
                 stage.removeChild(i_4);
             }
             for (var i = 0; i < this._ship.life; i++) {
@@ -305,8 +319,7 @@ var scenes;
             if (this._endDelay > 2000) {
                 if (this._stageWin) {
                     score += 500 * this._multiplier;
-                    scene = config.Scene.GAMEOVER;
-                    gameWin = true;
+                    scene = config.Scene.LEVEL3;
                 }
                 else {
                     scene = config.Scene.GAMEOVER;

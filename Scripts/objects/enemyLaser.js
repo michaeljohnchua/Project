@@ -9,14 +9,16 @@ var objects;
         __extends(EnemyLaser, _super);
         function EnemyLaser() {
             _super.call(this, "laserRed", "");
-            this.speed = -5;
+            this.speedy = -6;
+            this.speedx = 0;
             this.addToContainer = false;
             this.hitBool = false;
             this.timer = 0;
         }
         EnemyLaser.prototype.update = function () {
             _super.prototype.update.call(this);
-            this.position.y -= this.speed;
+            this.position.y -= this.speedy;
+            this.position.x -= this.speedx;
             if (this.hitBool) {
                 this.timer += 1;
             }

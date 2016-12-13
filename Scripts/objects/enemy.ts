@@ -2,7 +2,6 @@ module objects {
     export class Enemy extends objects.GameObject {
 
         private _move : objects.Vector2;
-        private _speed : number;
         private _shots : objects.EnemyLaser[];
         // public variables
         public name:string;
@@ -13,6 +12,9 @@ module objects {
         public aimBool : boolean = false;
         public rangeBool: boolean= false;
         public hitBool: boolean =false;
+        public speedx : number;
+        public speedy : number;
+        public direction : number;
 
         constructor(imageString:string, position:objects.Vector2) {
             super(imageString, "");
@@ -22,8 +24,9 @@ module objects {
             this.position = position;
             this.x = this.position.x;
             this.y = this.position.y;
-            this._speed = .25;
-
+            this.speedx = 0;
+            this.speedy = 0;
+            this.direction = 0;
         }
 
         get getShots() : objects.EnemyLaser[] {
@@ -31,14 +34,16 @@ module objects {
         }
         public update() : void {
             super.update();
-            this.position.y += this._speed;
+            this.position.y += this.speedy;
+            this.position.x += this.speedx*this.direction;
             this.timer += createjs.Ticker.interval;
 
-            if (this.aimBool && this.rangeBool && this.timer>2000 && this.hitBool==false){
+            if (this.aimBool && this.rangeBool && this.timer>1500 && this.hitBool==false){
                 let newLaser = new objects.EnemyLaser();
                 newLaser.setPosition(new objects.Vector2((this.position.x + (this.getBounds().width/2)-3), this.position.y +30));
                 this._shots.push(newLaser);
                 this.timer = 0.0;
+                createjs.Sound.play("LaserSound");
             }
 
             for (let laser of this._shots) {

@@ -15,6 +15,7 @@ module objects {
         public rangeBool: boolean= false;
         public hitBool: boolean =false;
         public life :number;
+        public level: number =0;
 
         constructor(imageString:string, position:objects.Vector2, life:number) {
             super(imageString, "");
@@ -25,7 +26,7 @@ module objects {
             this.x = this.position.x;
             this.y = this.position.y;
             this._speed = 2;
-            this.life =life;
+            this.life = life;
         }
 
         get getShots() : objects.EnemyLaser[] {
@@ -43,10 +44,27 @@ module objects {
             this.position.x += this._speed;
             this.timer += createjs.Ticker.interval;
 
-            if (this.aimBool && this.rangeBool && this.timer>1200 && this.life>0){
+            if (this.aimBool && this.rangeBool && this.timer>1000 && this.life>0){
                 let newLaser = new objects.EnemyLaser();
                 newLaser.setPosition(new objects.Vector2((this.position.x + (this.getBounds().width/2)-3), this.position.y +100));
                 this._shots.push(newLaser);
+
+                
+                //level 2 & 3 projectiles
+                if(this.level>1){
+                newLaser = new objects.EnemyLaser();
+                newLaser.setPosition(new objects.Vector2((this.position.x + (this.getBounds().width/2)-3), this.position.y +100));
+                newLaser.rotation = 30;
+                newLaser.speedx= 3;
+                this._shots.push(newLaser);
+
+                newLaser = new objects.EnemyLaser();
+                newLaser.setPosition(new objects.Vector2((this.position.x + (this.getBounds().width/2)-3), this.position.y +100));
+                newLaser.rotation = -30;
+                newLaser.speedx= -3;
+                this._shots.push(newLaser);
+                }
+                createjs.Sound.play("LaserSound");
                 this.timer = 0.0;
             }
 

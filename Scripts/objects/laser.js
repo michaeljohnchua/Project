@@ -9,7 +9,7 @@ var objects;
         __extends(Laser, _super);
         function Laser() {
             _super.call(this, "laserGreen", "");
-            this.speed = 15;
+            this.speed = 17;
             this.addToContainer = false;
             this.hitBool = false;
             this.timer = 0;
